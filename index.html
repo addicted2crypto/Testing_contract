@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang ="eng">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Test Dapp</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- <link rel="JS" href="index.js"> -->
+    </head>
+    <body>
+        <body>
+            <div>
+                
+                
+                <h1 id="dapp">
+                    Addicted's Test dApp!
+                </h1>
+                <p>This will be an epic test</p>
+                <p>Bearish or bullish setiment:</p>
+                <label for="market setiment">Input Setiment:</label><br />
+                <input type="text" id="setiment" />
+                <button onclick="getSetiment()">Get Setiment</button>
+                <button onclick="setSetiment()">Set Setiment</button>
+                const provider = new ethers.providers.Web3Provider(window.ethereum, "sepolia");
+                
+                
+                <p id="showSetiment"></p>
+            </div>
+        </body>
+    </html>
+    <script
+    src="https://cdn.ethers.io/lib/ethers-5.7.2.umd.min.js"
+    type="application/javascript"></script>
+  
+  <script>
+    
+    
+const SetimentContractAddress = "0xD3A396ea7b5bfB63043260a4165E3E1059A1C1f6";
+                                 
+const SetimentContractABI = [
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_setiment",
+				"type": "string"
+			}
+		],
+		"name": "setSetiment",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getSetiment",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+
+
+let SetimentContract = undefined;
+let signer = undefined;
+
+const provider = new ethers.providers.WebProvider(window.ethereum, "sepolia");
+
+provider.send("eth_requestAccounts", []).then(() => {
+    provider.listAccounts().then((accounts) => {
+        signer = provider.getSigner(accounts[0]);
+        SetimentContract = new ethers.Contract(
+            SetimentContractAddress,
+            SetimentContractABI,
+            signer
+        );
+    });
+});
+  
+async function getSetiment() {
+    const setiment = await SetimentContract.getSetiment();
+    document.getElementById("showSetiment").innerText = `Your Setiment: ${setiment}`;
+    // console.log(setiment);
+  }
+  
+  async function setSetiment() {
+    const setiment = document.getElementById("setiment").value;
+    await SetimentContract.setSetiment(setiment);
+  }
+
+  </script>
+
+    
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+
+   
+   
+
+   
+   
+   
+   
+   
+   
+
+</html>
